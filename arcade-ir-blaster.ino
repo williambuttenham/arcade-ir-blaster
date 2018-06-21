@@ -31,41 +31,26 @@ void loop()
 
     if (upState == HIGH && downState == HIGH)
     {
-        joystickChange();
+        if (pos == 0)
+        {
+            joystickServo.write(180);
+            delay(100);
+        }
+        else
+        {
+            joystickServo.write(0);
+            delay(100);
+        }
         delay(1000);
     }
     else if (upState == HIGH)
     {
-        irVolUp();
+        irsend.sendSony(0xa90, 12);
+        delay(40);
     }
     else if (downState == HIGH)
     {
-        irVolDown();
+        irsend.sendSony(0xa90, 12);
+        delay(40);
     }
-}
-
-void joystickChange()
-{
-    if (pos == 0)
-    {
-        joystickServo.write(180);
-        delay(100);
-    }
-    else
-    {
-        joystickServo.write(0);
-        delay(100);
-    }
-}
-
-void irVolUp()
-{
-    irsend.sendSony(0xa90, 12);
-    delay(40);
-}
-
-void irVolDown()
-{
-    irsend.sendSony(0xa90, 12);
-    delay(40);
 }
