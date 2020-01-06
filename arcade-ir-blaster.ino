@@ -25,10 +25,6 @@ IRsend irsend(IR_LED);  // Set the GPIO to be used to sending the message.
 ESP8266WebServer httpServer(80);
 ESP8266HTTPUpdateServer httpUpdater;
 
-// Poweroff
-uint16_t poweroffData[73] = {9018, 4488,  572, 554,  570, 554,  570, 554,  570, 554,  570, 554,  570, 554,  570, 1680,  572, 554,  570, 1680,  572, 1680,  572, 1680,  572, 1680,  572, 1680,  572, 1680,  570, 554,  570, 1680,  572, 554,  570, 1680,  572, 556,  570, 554,  570, 1680,  570, 554,  570, 554,  570, 554,  570, 1682,  570, 554,  570, 1680,  572, 1680,  570, 554,  570, 1682,  570, 1680,  570, 1680,  570, 32730,  78, 7174,  9018, 2242,  570};  // NEC 2FD48B7
-uint16_t inputData[71] = {9018, 4488,  570, 554,  570, 554,  570, 554,  570, 554,  570, 554,  570, 552,  570, 1680,  576, 550,  570, 1680,  572, 1680,  572, 1680,  572, 1680,  572, 1678,  572, 1680,  572, 554,  570, 1680,  570, 556,  570, 554,  570, 1680,  572, 554,  570, 1680,  572, 554,  570, 554,  570, 554,  570, 1680,  570, 1680,  570, 554,  570, 1680,  572, 554,  570, 1680,  570, 1680,  572, 1680,  572, 39980,  9044, 2216,  572};  // NEC 2FD28D7
-
 void handleRoot();              // function prototypes for HTTP handlers
 void handleLED();
 void handleNotFound();
@@ -41,9 +37,9 @@ void setup(void) {
   
   irsend.begin();
   delay(2000);
-  irsend.sendRaw(poweroffData, 67, 38);
+  irsend.sendNEC(0x2FD48B7);
   delay(2000);
-  irsend.sendRaw(inputData, 67, 38);
+  irsend.sendNEC(0x2FD28D7);
   
   WiFi.mode(WIFI_AP_STA);
   WiFi.begin(ssid, password);
