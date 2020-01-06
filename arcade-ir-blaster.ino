@@ -73,13 +73,13 @@ void handleRoot() {                         // When URI / is requested, send a w
 }
 
 void handlePower() { // If a POST request is made to URI /power
-  irsend.sendRaw(poweroffData, 67, 38);
+  irsend.sendNEC(0x2FD48B7);
   httpServer.sendHeader("Location","/"); // Add a header to respond with a new location for the browser to go to the home page again
   httpServer.send(303); // Send it back to the browser with an HTTP status 303 (See Other) to redirect
 }
 
 void handleInput() {
-  irsend.sendRaw(inputData, 67, 38);
+  irsend.sendNEC(0x2FD28D7);
   httpServer.sendHeader("Location","/");
   httpServer.send(303);
 }
@@ -90,7 +90,15 @@ void handleCommand() {
     httpServer.send(400, "text/plain", "400: Invalid Request"); // The request is invalid, so send HTTP status 400
     return;
   } else {
-    // irsend.sendRaw(httpServer.arg("data").toInt(), 67, 38);
+    switch (httpServer.arg("data")) {
+      case "1":
+        irsend.sendNEC(0x2FD807F);
+        break;
+      case "2":
+        irsend.sendNEC(0x2FD40BF);
+        break;
+    }
+    
     httpServer.sendHeader("Location","/");
     httpServer.send(303);
   }
