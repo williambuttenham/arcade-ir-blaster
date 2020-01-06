@@ -21,11 +21,11 @@ const char* host = "esp8266-webupdate";
 const char* ssid = STASSID;
 const char* password = STAPSK;
 
-IRsend irsend(IR_LED);  // Set the GPIO to be used to sending the message.
+IRsend irsend(IR_LED); // Set the GPIO to be used to sending the message.
 ESP8266WebServer httpServer(80);
 ESP8266HTTPUpdateServer httpUpdater;
 
-void handleRoot();              // function prototypes for HTTP handlers
+void handleRoot(); // function prototypes for HTTP handlers
 void handleLED();
 void handleNotFound();
 
@@ -52,7 +52,7 @@ void setup(void) {
   MDNS.begin(host);
 
   httpUpdater.setup(&httpServer);
-  httpServer.on("/", HTTP_GET, handleRoot);     // Call the 'handleRoot' function when a client requests URI "/"
+  httpServer.on("/", HTTP_GET, handleRoot); // Call the 'handleRoot' function when a client requests URI "/"
   httpServer.on("/power", HTTP_POST, handlePower);
   httpServer.on("/input", HTTP_POST, handleInput);
   httpServer.on("/command", HTTP_POST, handleCommand);
@@ -72,27 +72,27 @@ void handleRoot() {                         // When URI / is requested, send a w
   httpServer.send(200, "text/html", "<form action=\"/input\" method=\"POST\"><input type=\"submit\" value=\"Toggle Input\"></form><form action=\"/power\" method=\"POST\"><input type=\"submit\" value=\"Toggle Power\"></form><form action=\"/command\" method=\"POST\"><input type=\"text\" name=\"data\" placeholder=\"Command\"><input type=\"submit\" value=\"Submit\"></form><a href=\"update\">update</a>");
 }
 
-void handlePower() {                          // If a POST request is made to URI /power
+void handlePower() { // If a POST request is made to URI /power
   irsend.sendRaw(poweroffData, 67, 38);
-  httpServer.sendHeader("Location","/");        // Add a header to respond with a new location for the browser to go to the home page again
-  httpServer.send(303);                         // Send it back to the browser with an HTTP status 303 (See Other) to redirect
+  httpServer.sendHeader("Location","/"); // Add a header to respond with a new location for the browser to go to the home page again
+  httpServer.send(303); // Send it back to the browser with an HTTP status 303 (See Other) to redirect
 }
 
-void handleInput() {                          // If a POST request is made to URI /power
+void handleInput() {
   irsend.sendRaw(inputData, 67, 38);
-  httpServer.sendHeader("Location","/");        // Add a header to respond with a new location for the browser to go to the home page again
-  httpServer.send(303);                         // Send it back to the browser with an HTTP status 303 (See Other) to redirect
+  httpServer.sendHeader("Location","/");
+  httpServer.send(303);
 }
 
-void handleCommand() {                         // If a POST request is made to URI /command
+void handleCommand() {
   if( ! httpServer.hasArg("data") 
       || httpServer.arg("data") == NULL) { // If the POST request doesn't have data
-    httpServer.send(400, "text/plain", "400: Invalid Request");         // The request is invalid, so send HTTP status 400
+    httpServer.send(400, "text/plain", "400: Invalid Request"); // The request is invalid, so send HTTP status 400
     return;
   } else {
     // irsend.sendRaw(httpServer.arg("data").toInt(), 67, 38);
-    httpServer.sendHeader("Location","/");        // Add a header to respond with a new location for the browser to go to the home page again
-    httpServer.send(303);                         // Send it back to the browser with an HTTP status 303 (See Other) to redirect
+    httpServer.sendHeader("Location","/");
+    httpServer.send(303);
   }
 }
 
