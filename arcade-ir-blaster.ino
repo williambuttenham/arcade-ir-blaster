@@ -18,6 +18,9 @@
 #define STAPSK "***REMOVED***"
 #endif
 
+#define TV_ON 0x2FD48B7    //
+#define TV_INPUT 0x2FD28D7 //
+
 #define IR_BPlus 0xFF3AC5  //
 #define IR_BMinus 0xFFBA45 //
 #define IR_ON 0xFF827D     //
@@ -71,12 +74,10 @@ IRsend irsend(IR_LED); // Set the GPIO to be used to sending the message.
 ESP8266WebServer httpServer(80);
 ESP8266HTTPUpdateServer httpUpdater;
 
+File fsUploadFile;                      // a File object to temporarily store the received file
 String getContentType(String filename); // convert the file extension to the MIME type
 bool handleFileRead(String path);       // send the right file to the client (if it exists)
-
-void handleRoot(); // function prototypes for HTTP handlers
-void handleLED();
-void handleNotFound();
+void handleFileUpload();                // upload a new file to the SPIFFS
 
 void setup(void)
 {
@@ -86,11 +87,9 @@ void setup(void)
   Serial.println("Booting Sketch...");
 
   irsend.begin();
+  irsend.sendNEC(TV_ON);
   delay(2000);
-  irsend.sendNEC(0x2FD48B7);
-  delay(2000);
-  irsend.sendNEC(0x2FD28D7);
-  delay(2000);
+  irsend.sendNEC(TV_INPUT);
   irsend.sendNEC(IR_OFF);
 
   WiFi.mode(WIFI_AP_STA);
@@ -107,6 +106,17 @@ void setup(void)
   SPIFFS.begin();
 
   httpUpdater.setup(&httpServer);
+
+  httpServer.on("/uploaddata", HTTP_GET, []() {             // if the client requests the upload page
+    if (!handleFileRead("/uploaddata.html"))                // send it if it exists
+      httpServer.send(404, "text/plain", "404: Not Found"); // otherwise, respond with a 404 (Not Found) error
+  });
+
+  httpServer.on("/uploaddata", HTTP_POST,       // if the client posts to the upload page
+                []() { httpServer.send(200); }, // Send status 200 (OK) to tell the client we are ready to receive
+                handleFileUpload                // Receive and save the file
+  );
+
   httpServer.onNotFound([]() {                              // If the client requests any URI
     if (!handleFileRead(httpServer.uri()))                  // send it if it exists
       httpServer.send(404, "text/plain", "404: Not Found"); // otherwise, respond with a 404 (Not Found) error
@@ -171,4 +181,39 @@ bool handleFileRead(String path)
   }
   Serial.println(String("\tFile Not Found: ") + path);
   return false; // If the file doesn't exist, return false
+}
+
+void handleFileUpload()
+{ // upload a new file to the SPIFFS
+  HTTPUpload &upload = httpServer.upload();
+  if (upload.status == UPLOAD_FILE_START)
+  {
+    String filename = upload.filename;
+    if (!filename.startsWith("/"))
+      filename = "/" + filename;
+    Serial.print("handleFileUpload Name: ");
+    Serial.println(filename);
+    fsUploadFile = SPIFFS.open(filename, "w"); // Open the file for writing in SPIFFS (create if it doesn't exist)
+    filename = String();
+  }
+  else if (upload.status == UPLOAD_FILE_WRITE)
+  {
+    if (fsUploadFile)
+      fsUploadFile.write(upload.buf, upload.currentSize); // Write the received bytes to the file
+  }
+  else if (upload.status == UPLOAD_FILE_END)
+  {
+    if (fsUploadFile)
+    {                       // If the file was successfully created
+      fsUploadFile.close(); // Close the file again
+      Serial.print("handleFileUpload Size: ");
+      Serial.println(upload.totalSize);
+      httpServer.sendHeader("Location", "/success.html"); // Redirect the client to the success page
+      httpServer.send(303);
+    }
+    else
+    {
+      httpServer.send(500, "text/plain", "500: couldn't create file");
+    }
+  }
 }
