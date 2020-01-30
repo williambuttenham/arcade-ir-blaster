@@ -117,6 +117,8 @@ void setup(void)
                 handleFileUpload                // Receive and save the file
   );
 
+  httpServer.on("/command", HTTP_POST, handleCommand);
+
   httpServer.onNotFound([]() {                              // If the client requests any URI
     if (!handleFileRead(httpServer.uri()))                  // send it if it exists
       httpServer.send(404, "text/plain", "404: Not Found"); // otherwise, respond with a 404 (Not Found) error
@@ -215,5 +217,158 @@ void handleFileUpload()
     {
       httpServer.send(500, "text/plain", "500: couldn't create file");
     }
+  }
+}
+
+void handleCommand()
+{
+  if (!httpServer.hasArg("data") || httpServer.arg("data") == NULL)
+  {                                                             // If the POST request doesn't have data
+    httpServer.send(400, "text/plain", "400: Invalid Request"); // The request is invalid, so send HTTP status 400
+    return;
+  }
+  else
+  {
+
+    if (httpServer.arg("data") == "TV_ON")
+      irsend.sendNEC(TV_ON);
+
+    if (httpServer.arg("data") == "TV_INPUT")
+      irsend.sendNEC(TV_INPUT);
+
+    if (httpServer.arg("data") == "IR_BPlus")
+      irsend.sendNEC(IR_BPlus);
+
+    if (httpServer.arg("data") == "IR_BMinus")
+      irsend.sendNEC(IR_BMinus);
+
+    if (httpServer.arg("data") == "IR_ON")
+      irsend.sendNEC(IR_ON);
+
+    if (httpServer.arg("data") == "IR_OFF")
+      irsend.sendNEC(IR_OFF);
+
+    if (httpServer.arg("data") == "IR_R")
+      irsend.sendNEC(IR_R);
+
+    if (httpServer.arg("data") == "IR_G")
+      irsend.sendNEC(IR_G);
+
+    if (httpServer.arg("data") == "IR_B")
+      irsend.sendNEC(IR_B);
+
+    if (httpServer.arg("data") == "IR_W")
+      irsend.sendNEC(IR_W);
+
+    if (httpServer.arg("data") == "IR_B1")
+      irsend.sendNEC(IR_B1);
+
+    if (httpServer.arg("data") == "IR_B2")
+      irsend.sendNEC(IR_B2);
+
+    if (httpServer.arg("data") == "IR_B3")
+      irsend.sendNEC(IR_B3);
+
+    if (httpServer.arg("data") == "IR_B4")
+      irsend.sendNEC(IR_B4);
+
+    if (httpServer.arg("data") == "IR_B5")
+      irsend.sendNEC(IR_B5);
+
+    if (httpServer.arg("data") == "IR_B6")
+      irsend.sendNEC(IR_B6);
+
+    if (httpServer.arg("data") == "IR_B7")
+      irsend.sendNEC(IR_B7);
+
+    if (httpServer.arg("data") == "IR_B8")
+      irsend.sendNEC(IR_B8);
+
+    if (httpServer.arg("data") == "IR_B9")
+      irsend.sendNEC(IR_B9);
+
+    if (httpServer.arg("data") == "IR_B10")
+      irsend.sendNEC(IR_B10);
+
+    if (httpServer.arg("data") == "IR_B11")
+      irsend.sendNEC(IR_B11);
+
+    if (httpServer.arg("data") == "IR_B12")
+      irsend.sendNEC(IR_B12);
+
+    if (httpServer.arg("data") == "IR_B13")
+      irsend.sendNEC(IR_B13);
+
+    if (httpServer.arg("data") == "IR_B14")
+      irsend.sendNEC(IR_B14);
+
+    if (httpServer.arg("data") == "IR_B15")
+      irsend.sendNEC(IR_B15);
+
+    if (httpServer.arg("data") == "IR_B16")
+      irsend.sendNEC(IR_B16);
+
+    if (httpServer.arg("data") == "IR_UPR")
+      irsend.sendNEC(IR_UPR);
+
+    if (httpServer.arg("data") == "IR_UPG")
+      irsend.sendNEC(IR_UPG);
+
+    if (httpServer.arg("data") == "IR_UPB")
+      irsend.sendNEC(IR_UPB);
+
+    if (httpServer.arg("data") == "IR_QUICK")
+      irsend.sendNEC(IR_QUICK);
+
+    if (httpServer.arg("data") == "IR_DOWNR")
+      irsend.sendNEC(IR_DOWNR);
+
+    if (httpServer.arg("data") == "IR_DOWNG")
+      irsend.sendNEC(IR_DOWNG);
+
+    if (httpServer.arg("data") == "IR_DOWNB")
+      irsend.sendNEC(IR_DOWNB);
+
+    if (httpServer.arg("data") == "IR_SLOW")
+      irsend.sendNEC(IR_SLOW);
+
+    if (httpServer.arg("data") == "IR_DIY1")
+      irsend.sendNEC(IR_DIY1);
+
+    if (httpServer.arg("data") == "IR_DIY2")
+      irsend.sendNEC(IR_DIY2);
+
+    if (httpServer.arg("data") == "IR_DIY3")
+      irsend.sendNEC(IR_DIY3);
+
+    if (httpServer.arg("data") == "IR_AUTO")
+      irsend.sendNEC(IR_AUTO);
+
+    if (httpServer.arg("data") == "IR_DIY4")
+      irsend.sendNEC(IR_DIY4);
+
+    if (httpServer.arg("data") == "IR_DIY5")
+      irsend.sendNEC(IR_DIY5);
+
+    if (httpServer.arg("data") == "IR_DIY6")
+      irsend.sendNEC(IR_DIY6);
+
+    if (httpServer.arg("data") == "IR_FLASH")
+      irsend.sendNEC(IR_FLASH);
+
+    if (httpServer.arg("data") == "IR_JUMP3")
+      irsend.sendNEC(IR_JUMP3);
+
+    if (httpServer.arg("data") == "IR_JUMP7")
+      irsend.sendNEC(IR_JUMP7);
+
+    if (httpServer.arg("data") == "IR_FADE3")
+      irsend.sendNEC(IR_FADE3);
+
+    if (httpServer.arg("data") == "IR_FADE7")
+      irsend.sendNEC(IR_FADE7);
+
+    httpServer.sendHeader("Location", "/");
+    httpServer.send(303);
   }
 }
