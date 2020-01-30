@@ -9,6 +9,7 @@
 #include <ESP8266HTTPUpdateServer.h>
 #include <IRremoteESP8266.h>
 #include <IRsend.h>
+#include <FS.h> // Include the SPIFFS library
 
 #define IR_LED D3
 
@@ -70,6 +71,9 @@ IRsend irsend(IR_LED); // Set the GPIO to be used to sending the message.
 ESP8266WebServer httpServer(80);
 ESP8266HTTPUpdateServer httpUpdater;
 
+String getContentType(String filename); // convert the file extension to the MIME type
+bool handleFileRead(String path);       // send the right file to the client (if it exists)
+
 void handleRoot(); // function prototypes for HTTP handlers
 void handleLED();
 void handleNotFound();
@@ -100,12 +104,13 @@ void setup(void)
 
   MDNS.begin(host);
 
+  SPIFFS.begin();
+
   httpUpdater.setup(&httpServer);
-  httpServer.on("/", HTTP_GET, handleRoot); // Call the 'handleRoot' function when a client requests URI "/"
-  httpServer.on("/power", HTTP_POST, handlePower);
-  httpServer.on("/input", HTTP_POST, handleInput);
-  httpServer.on("/command", HTTP_POST, handleCommand);
-  httpServer.onNotFound(handleNotFound);
+  httpServer.onNotFound([]() {                              // If the client requests any URI
+    if (!handleFileRead(httpServer.uri()))                  // send it if it exists
+      httpServer.send(404, "text/plain", "404: Not Found"); // otherwise, respond with a 404 (Not Found) error
+  });
   httpServer.begin();
 
   MDNS.addService("http", "tcp", 80);
@@ -118,49 +123,52 @@ void loop(void)
   MDNS.update();
 }
 
-void handleRoot()
-{ // When URI / is requested, send a web page with a button to toggle the LED
-  httpServer.send(200, "text/html", "<form action=\"/input\" method=\"POST\"><input type=\"submit\" value=\"Toggle Input\"></form><form action=\"/power\" method=\"POST\"><input type=\"submit\" value=\"Toggle Power\"></form><form action=\"/command\" method=\"POST\"><input type=\"text\" name=\"data\" placeholder=\"Command\"><input type=\"submit\" value=\"Submit\"></form><a href=\"update\">update</a>");
-}
-
-void handlePower()
-{ // If a POST request is made to URI /power
-  irsend.sendNEC(0x2FD48B7);
-  httpServer.sendHeader("Location", "/"); // Add a header to respond with a new location for the browser to go to the home page again
-  httpServer.send(303);                   // Send it back to the browser with an HTTP status 303 (See Other) to redirect
-}
-
-void handleInput()
+String getContentType(String filename)
 {
-  irsend.sendNEC(0x2FD28D7);
-  httpServer.sendHeader("Location", "/");
-  httpServer.send(303);
+  if (filename.endsWith(".htm"))
+    return "text/html";
+  else if (filename.endsWith(".html"))
+    return "text/html";
+  else if (filename.endsWith(".css"))
+    return "text/css";
+  else if (filename.endsWith(".js"))
+    return "application/javascript";
+  else if (filename.endsWith(".png"))
+    return "image/png";
+  else if (filename.endsWith(".gif"))
+    return "image/gif";
+  else if (filename.endsWith(".jpg"))
+    return "image/jpeg";
+  else if (filename.endsWith(".ico"))
+    return "image/x-icon";
+  else if (filename.endsWith(".xml"))
+    return "text/xml";
+  else if (filename.endsWith(".pdf"))
+    return "application/x-pdf";
+  else if (filename.endsWith(".zip"))
+    return "application/x-zip";
+  else if (filename.endsWith(".gz"))
+    return "application/x-gzip";
+  return "text/plain";
 }
 
-void handleCommand()
-{
-  if (!httpServer.hasArg("data") || httpServer.arg("data") == NULL)
-  {                                                             // If the POST request doesn't have data
-    httpServer.send(400, "text/plain", "400: Invalid Request"); // The request is invalid, so send HTTP status 400
-    return;
+bool handleFileRead(String path)
+{ // send the right file to the client (if it exists)
+  Serial.println("handleFileRead: " + path);
+  if (path.endsWith("/"))
+    path += "index.html";                    // If a folder is requested, send the index file
+  String contentType = getContentType(path); // Get the MIME type
+  String pathWithGz = path + ".gz";
+  if (SPIFFS.exists(pathWithGz) || SPIFFS.exists(path))
+  {                                                         // If the file exists, either as a compressed archive, or normal
+    if (SPIFFS.exists(pathWithGz))                          // If there's a compressed version available
+      path += ".gz";                                        // Use the compressed version
+    File file = SPIFFS.open(path, "r");                     // Open the file
+    size_t sent = httpServer.streamFile(file, contentType); // Send it to the client
+    file.close();                                           // Close the file again
+    Serial.println(String("\tSent file: ") + path);
+    return true;
   }
-  else
-  {
-    if (httpServer.arg("data") == "1")
-    {
-      irsend.sendNEC(IR_OFF);
-      Serial.println("test");
-    }
-
-    if (httpServer.arg("data") == "2")
-      irsend.sendNEC(0x2FD40BF);
-
-    httpServer.sendHeader("Location", "/");
-    httpServer.send(303);
-  }
-}
-
-void handleNotFound()
-{
-  httpServer.send(404, "text/plain", "404: Not found"); // Send HTTP status 404 (Not Found) when there's no handler for the URI in the request
+  Serial.println(String("\tFile Not Found: ") + path);
+  return false; // If the file doesn't exist, return false
 }
