@@ -18,8 +18,54 @@
 #define STAPSK "***REMOVED***"
 #endif
 
-#define TV_ON 0x2FD48B7    //
-#define TV_INPUT 0x2FD28D7 //
+#define TV_ON 0x2FD48B7           //
+#define TV_INPUT 0x2FD28D7        //
+#define TV_1 0x2FD807F            //
+#define TV_2 0x2FD40BF            //
+#define TV_3 0x2FDC03F            //
+#define TV_4 0x2FD20DF            //
+#define TV_5 0x2FDA05F            //
+#define TV_6 0x2FD609F            //
+#define TV_7 0x2FDE01F            //
+#define TV_8 0x2FD10EF            //
+#define TV_9 0x2FD906F            //
+#define TV_0 0x2FD00FF            //
+#define TV_List 0x2FDE21D         //
+#define TV_Refresh 0x2FD4AB5      //
+#define TV_volumeplus 0x2FD58A7   //
+#define TV_volumeminus 0x2FD7887  //
+#define TV_mute 0x2FD08F7         //
+#define TV_info 0x2FD6897         //
+#define TV_programplus 0x2FDD827  //
+#define TV_programminus 0x2FDF807 //
+#define TV_menu 0x2FDDA25         //
+#define TV_home 0x27D2CD3         //
+#define TV_back 0x2FD26D9         //
+#define TV_Exit 0x2FDC23D         //
+#define TV_up 0x2FD9867           //
+#define TV_Down 0x2FDB847         //
+#define TV_Left 0x2FD42BD         //
+#define TV_Right 0x2FD02FD        //
+#define TV_ok 0x2FD847B           //
+#define TV_quik 0x2FDC639         //
+#define TV_media 0x2FD6699        //
+#define TV_guide 0x2FDA25D        //
+#define TV_fav 0x27D619E          //
+#define TV_fav2 0x27DE11E         //
+#define TV_text 0x2FDE817         //
+#define TV_Red 0x2FD12ED          //
+#define TV_Green 0x2FD926D        //
+#define TV_Yellow 0x2FD52AD       //
+#define TV_Blue 0x2FDD22D         //
+#define TV_Switch 0x2FDC837       //
+#define TV_Subtitle 0x2FD30CF     //
+#define TV_Ratio 0x2FD9A65        //
+#define TV_reverse 0x2FD36C9      //
+#define TV_Pause 0x2FD56A9        //
+#define TV_forward 0x2FDD629      //
+#define TV_Rec 0x2FDF609          //
+#define TV_Play 0x2FDE619         //
+#define TV_Stop 0x2FD16E9         //
 
 #define IR_BPlus 0xFF3AC5  //
 #define IR_BMinus 0xFFBA45 //
@@ -90,7 +136,6 @@ void setup(void)
   irsend.sendNEC(TV_ON);
   delay(2000);
   irsend.sendNEC(TV_INPUT);
-  irsend.sendNEC(IR_OFF);
 
   WiFi.mode(WIFI_AP_STA);
   WiFi.begin(ssid, password);
@@ -235,6 +280,144 @@ void handleCommand()
 
     if (httpServer.arg("data") == "TV_INPUT")
       irsend.sendNEC(TV_INPUT);
+
+    if (httpServer.arg("data") == "TV_1")
+      irsend.sendNEC(TV_1);
+
+    if (httpServer.arg("data") == "TV_2")
+      irsend.sendNEC(TV_2);
+
+    if (httpServer.arg("data") == "TV_3")
+      irsend.sendNEC(TV_3);
+
+    if (httpServer.arg("data") == "TV_4")
+      irsend.sendNEC(TV_4);
+
+    if (httpServer.arg("data") == "TV_5")
+      irsend.sendNEC(TV_5);
+
+    if (httpServer.arg("data") == "TV_6")
+      irsend.sendNEC(TV_6);
+
+    if (httpServer.arg("data") == "TV_7")
+      irsend.sendNEC(TV_7);
+
+    if (httpServer.arg("data") == "TV_8")
+      irsend.sendNEC(TV_8);
+
+    if (httpServer.arg("data") == "TV_9")
+      irsend.sendNEC(TV_9);
+
+    if (httpServer.arg("data") == "TV_0")
+      irsend.sendNEC(TV_0);
+
+    if (httpServer.arg("data") == "TV_List")
+      irsend.sendNEC(TV_List);
+
+    if (httpServer.arg("data") == "TV_Refresh")
+      irsend.sendNEC(TV_Refresh);
+
+    if (httpServer.arg("data") == "TV_volumeplus")
+      irsend.sendNEC(TV_volumeplus);
+
+    if (httpServer.arg("data") == "TV_volumeminus")
+      irsend.sendNEC(TV_volumeminus);
+
+    if (httpServer.arg("data") == "TV_mute")
+      irsend.sendNEC(TV_mute);
+
+    if (httpServer.arg("data") == "TV_info")
+      irsend.sendNEC(TV_info);
+
+    if (httpServer.arg("data") == "TV_programplus")
+      irsend.sendNEC(TV_programplus);
+
+    if (httpServer.arg("data") == "TV_programminus")
+      irsend.sendNEC(TV_programminus);
+
+    if (httpServer.arg("data") == "TV_menu")
+      irsend.sendNEC(TV_menu);
+
+    if (httpServer.arg("data") == "TV_home")
+      irsend.sendNEC(TV_home);
+
+    if (httpServer.arg("data") == "TV_back")
+      irsend.sendNEC(TV_back);
+
+    if (httpServer.arg("data") == "TV_Exit")
+      irsend.sendNEC(TV_Exit);
+
+    if (httpServer.arg("data") == "TV_up")
+      irsend.sendNEC(TV_up);
+
+    if (httpServer.arg("data") == "TV_Down")
+      irsend.sendNEC(TV_Down);
+
+    if (httpServer.arg("data") == "TV_Left")
+      irsend.sendNEC(TV_Left);
+
+    if (httpServer.arg("data") == "TV_Right")
+      irsend.sendNEC(TV_Right);
+
+    if (httpServer.arg("data") == "TV_ok")
+      irsend.sendNEC(TV_ok);
+
+    if (httpServer.arg("data") == "TV_quik")
+      irsend.sendNEC(TV_quik);
+
+    if (httpServer.arg("data") == "TV_media")
+      irsend.sendNEC(TV_media);
+
+    if (httpServer.arg("data") == "TV_guide")
+      irsend.sendNEC(TV_guide);
+
+    if (httpServer.arg("data") == "TV_fav")
+      irsend.sendNEC(TV_fav);
+
+    if (httpServer.arg("data") == "TV_fav2")
+      irsend.sendNEC(TV_fav2);
+
+    if (httpServer.arg("data") == "TV_text")
+      irsend.sendNEC(TV_text);
+
+    if (httpServer.arg("data") == "TV_Red")
+      irsend.sendNEC(TV_Red);
+
+    if (httpServer.arg("data") == "TV_Green")
+      irsend.sendNEC(TV_Green);
+
+    if (httpServer.arg("data") == "TV_Yellow")
+      irsend.sendNEC(TV_Yellow);
+
+    if (httpServer.arg("data") == "TV_Blue")
+      irsend.sendNEC(TV_Blue);
+
+    if (httpServer.arg("data") == "TV_Switch")
+      irsend.sendNEC(TV_Switch);
+
+    if (httpServer.arg("data") == "TV_Subtitle")
+      irsend.sendNEC(TV_Subtitle);
+
+    if (httpServer.arg("data") == "TV_Ratio")
+      irsend.sendNEC(TV_Ratio);
+
+    if (httpServer.arg("data") == "TV_reverse")
+      irsend.sendNEC(TV_reverse);
+
+    if (httpServer.arg("data") == "TV_Pause")
+      irsend.sendNEC(TV_Pause);
+
+    if (httpServer.arg("data") == "TV_forward")
+      irsend.sendNEC(TV_forward);
+
+    if (httpServer.arg("data") == "TV_Rec")
+      irsend.sendNEC(TV_Rec);
+
+    if (httpServer.arg("data") == "TV_Play")
+      irsend.sendNEC(TV_Play);
+
+    if (httpServer.arg("data") == "TV_Stop")
+      irsend.sendNEC(TV_Stop);
 
     if (httpServer.arg("data") == "IR_BPlus")
       irsend.sendNEC(IR_BPlus);

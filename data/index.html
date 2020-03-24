@@ -1,52 +1,120 @@
-<form method="POST">
-    <input type="submit" name="data" formaction="/command" value="TV_ON">
-    <input type="submit" name="data" formaction="/command" value="TV_INPUT">
-    <input type="submit" name="data" formaction="/command" value="IR_BPlus">
-    <input type="submit" name="data" formaction="/command" value="IR_BMinus">
-    <input type="submit" name="data" formaction="/command" value="IR_ON">
-    <input type="submit" name="data" formaction="/command" value="IR_OFF">
-    <input type="submit" name="data" formaction="/command" value="IR_R">
-    <input type="submit" name="data" formaction="/command" value="IR_G">
-    <input type="submit" name="data" formaction="/command" value="IR_B">
-    <input type="submit" name="data" formaction="/command" value="IR_W">
-    <input type="submit" name="data" formaction="/command" value="IR_B1">
-    <input type="submit" name="data" formaction="/command" value="IR_B2">
-    <input type="submit" name="data" formaction="/command" value="IR_B3">
-    <input type="submit" name="data" formaction="/command" value="IR_B4">
-    <input type="submit" name="data" formaction="/command" value="IR_B5">
-    <input type="submit" name="data" formaction="/command" value="IR_B6">
-    <input type="submit" name="data" formaction="/command" value="IR_B7">
-    <input type="submit" name="data" formaction="/command" value="IR_B8">
-    <input type="submit" name="data" formaction="/command" value="IR_B9">
-    <input type="submit" name="data" formaction="/command" value="IR_B10">
-    <input type="submit" name="data" formaction="/command" value="IR_B11">
-    <input type="submit" name="data" formaction="/command" value="IR_B12">
-    <input type="submit" name="data" formaction="/command" value="IR_B13">
-    <input type="submit" name="data" formaction="/command" value="IR_B14">
-    <input type="submit" name="data" formaction="/command" value="IR_B15">
-    <input type="submit" name="data" formaction="/command" value="IR_B16">
-    <input type="submit" name="data" formaction="/command" value="IR_UPR">
-    <input type="submit" name="data" formaction="/command" value="IR_UPG">
-    <input type="submit" name="data" formaction="/command" value="IR_UPB">
-    <input type="submit" name="data" formaction="/command" value="IR_QUICK">
-    <input type="submit" name="data" formaction="/command" value="IR_DOWNR">
-    <input type="submit" name="data" formaction="/command" value="IR_DOWNG">
-    <input type="submit" name="data" formaction="/command" value="IR_DOWNB">
-    <input type="submit" name="data" formaction="/command" value="IR_SLOW">
-    <input type="submit" name="data" formaction="/command" value="IR_DIY1">
-    <input type="submit" name="data" formaction="/command" value="IR_DIY2">
-    <input type="submit" name="data" formaction="/command" value="IR_DIY3">
-    <input type="submit" name="data" formaction="/command" value="IR_AUTO">
-    <input type="submit" name="data" formaction="/command" value="IR_DIY4">
-    <input type="submit" name="data" formaction="/command" value="IR_DIY5">
-    <input type="submit" name="data" formaction="/command" value="IR_DIY6">
-    <input type="submit" name="data" formaction="/command" value="IR_FLASH">
-    <input type="submit" name="data" formaction="/command" value="IR_JUMP3">
-    <input type="submit" name="data" formaction="/command" value="IR_JUMP7">
-    <input type="submit" name="data" formaction="/command" value="IR_FADE3">
-    <input type="submit" name="data" formaction="/command" value="IR_FADE7">
-</form>
-<a href="update">update</a>
-<a href="uploaddata">update data</a>
+<html>
 
-<img src="44keyIRRemoteCodes.jpg">
+<head>
+    <script>
+        function submitform(button) {
+            document.getElementById('command').value = button;
+            document.formmap.submit();
+        }
+    </script>
+</head>
+
+<body>
+    <form name="formmap" action="/command" method="POST">
+        <input type='hidden' id='command' name="data" />
+    </form>
+
+    <img src="44keyIRRemoteCodes.jpg" usemap="#disp_map">
+
+    <map name="disp_map">
+        <area onClick="submitform('IR_BPlus')" href="#" coords="30,25,152,98" shape="rect">
+        <area onClick="submitform('IR_BMinus')" href="#" coords="152,25,272,98" shape="rect">
+        <area onClick="submitform('IR_ON')" href="#" coords="273,25,395,98" shape="rect">
+        <area onClick="submitform('IR_OFF')" href="#" coords="395,25,523,98" shape="rect">
+        <area onClick="submitform('IR_R')" href="#" coords="30,98,152,171" shape="rect">
+        <area onClick="submitform('IR_G')" href="#" coords="152,98,272,171" shape="rect">
+        <area onClick="submitform('IR_B')" href="#" coords="273,98,395,171" shape="rect">
+        <area onClick="submitform('IR_W')" href="#" coords="395,98,523,171" shape="rect">
+        <area onClick="submitform('IR_B1')" href="#" coords="30,171,152,244" shape="rect">
+        <area onClick="submitform('IR_B2')" href="#" coords="152,171,272,244" shape="rect">
+        <area onClick="submitform('IR_B3')" href="#" coords="273,171,395,244" shape="rect">
+        <area onClick="submitform('IR_B4')" href="#" coords="395,171,523,244" shape="rect">
+        <area onClick="submitform('IR_B5')" href="#" coords="30,244,152,317" shape="rect">
+        <area onClick="submitform('IR_B6')" href="#" coords="152,244,272,317" shape="rect">
+        <area onClick="submitform('IR_B7')" href="#" coords="273,244,395,317" shape="rect">
+        <area onClick="submitform('IR_B8')" href="#" coords="395,244,523,317" shape="rect">
+        <area onClick="submitform('IR_B9')" href="#" coords="30,317,152,390" shape="rect">
+        <area onClick="submitform('IR_B10')" href="#" coords="152,317,272,390" shape="rect">
+        <area onClick="submitform('IR_B11')" href="#" coords="273,317,395,390" shape="rect">
+        <area onClick="submitform('IR_B12')" href="#" coords="395,317,523,390" shape="rect">
+        <area onClick="submitform('IR_B13')" href="#" coords="30,390,152,463" shape="rect">
+        <area onClick="submitform('IR_B14')" href="#" coords="152,390,272,463" shape="rect">
+        <area onClick="submitform('IR_B15')" href="#" coords="273,390,395,463" shape="rect">
+        <area onClick="submitform('IR_B16')" href="#" coords="395,390,523,463" shape="rect">
+        <area onClick="submitform('IR_UPR')" href="#" coords="30,463,152,536" shape="rect">
+        <area onClick="submitform('IR_UPG')" href="#" coords="152,463,272,536" shape="rect">
+        <area onClick="submitform('IR_UPB')" href="#" coords="273,463,395,536" shape="rect">
+        <area onClick="submitform('IR_QUICK')" href="#" coords="395,463,523,536" shape="rect">
+        <area onClick="submitform('IR_DOWNR')" href="#" coords="30,536,152,609" shape="rect">
+        <area onClick="submitform('IR_DOWNG')" href="#" coords="152,536,272,609" shape="rect">
+        <area onClick="submitform('IR_DOWNB')" href="#" coords="273,536,395,609" shape="rect">
+        <area onClick="submitform('IR_SLOW')" href="#" coords="395,536,523,609" shape="rect">
+        <area onClick="submitform('IR_DIY1')" href="#" coords="30,609,152,682" shape="rect">
+        <area onClick="submitform('IR_DIY2')" href="#" coords="152,609,272,682" shape="rect">
+        <area onClick="submitform('IR_DIY3')" href="#" coords="273,609,395,682" shape="rect">
+        <area onClick="submitform('IR_AUTO')" href="#" coords="395,609,523,682" shape="rect">
+        <area onClick="submitform('IR_DIY4')" href="#" coords="30,682,152,755" shape="rect">
+        <area onClick="submitform('IR_DIY5')" href="#" coords="152,682,272,755" shape="rect">
+        <area onClick="submitform('IR_DIY6')" href="#" coords="273,682,395,755" shape="rect">
+        <area onClick="submitform('IR_FLASH')" href="#" coords="395,682,523,755" shape="rect">
+        <area onClick="submitform('IR_JUMP3')" href="#" coords="30,755,152,828" shape="rect">
+        <area onClick="submitform('IR_JUMP7')" href="#" coords="152,755,272,828" shape="rect">
+        <area onClick="submitform('IR_FADE3')" href="#" coords="273,755,395,828" shape="rect">
+        <area onClick="submitform('IR_FADE7')" href="#" coords="395,755,523,828" shape="rect">
+    </map>
+
+    <form method="POST">
+        <input type="submit" name="data" formaction="/command" value="TV_ON">
+        <input type="submit" name="data" formaction="/command" value="TV_INPUT">
+        <input type="submit" name="data" formaction="/command" value="TV_1">
+        <input type="submit" name="data" formaction="/command" value="TV_2">
+        <input type="submit" name="data" formaction="/command" value="TV_3">
+        <input type="submit" name="data" formaction="/command" value="TV_4">
+        <input type="submit" name="data" formaction="/command" value="TV_5">
+        <input type="submit" name="data" formaction="/command" value="TV_6">
+        <input type="submit" name="data" formaction="/command" value="TV_7">
+        <input type="submit" name="data" formaction="/command" value="TV_8">
+        <input type="submit" name="data" formaction="/command" value="TV_9">
+        <input type="submit" name="data" formaction="/command" value="TV_0">
+        <input type="submit" name="data" formaction="/command" value="TV_List">
+        <input type="submit" name="data" formaction="/command" value="TV_Refresh">
+        <input type="submit" name="data" formaction="/command" value="TV_volumeplus">
+        <input type="submit" name="data" formaction="/command" value="TV_volumeminus">
+        <input type="submit" name="data" formaction="/command" value="TV_mute">
+        <input type="submit" name="data" formaction="/command" value="TV_info">
+        <input type="submit" name="data" formaction="/command" value="TV_programplus">
+        <input type="submit" name="data" formaction="/command" value="TV_programminus">
+        <input type="submit" name="data" formaction="/command" value="TV_menu">
+        <input type="submit" name="data" formaction="/command" value="TV_home">
+        <input type="submit" name="data" formaction="/command" value="TV_back">
+        <input type="submit" name="data" formaction="/command" value="TV_Exit">
+        <input type="submit" name="data" formaction="/command" value="TV_up">
+        <input type="submit" name="data" formaction="/command" value="TV_Down">
+        <input type="submit" name="data" formaction="/command" value="TV_Left">
+        <input type="submit" name="data" formaction="/command" value="TV_Right">
+        <input type="submit" name="data" formaction="/command" value="TV_ok">
+        <input type="submit" name="data" formaction="/command" value="TV_quik">
+        <input type="submit" name="data" formaction="/command" value="TV_media">
+        <input type="submit" name="data" formaction="/command" value="TV_guide">
+        <input type="submit" name="data" formaction="/command" value="TV_fav">
+        <input type="submit" name="data" formaction="/command" value="TV_fav2">
+        <input type="submit" name="data" formaction="/command" value="TV_text">
+        <input type="submit" name="data" formaction="/command" value="TV_Red">
+        <input type="submit" name="data" formaction="/command" value="TV_Green">
+        <input type="submit" name="data" formaction="/command" value="TV_Yellow">
+        <input type="submit" name="data" formaction="/command" value="TV_Blue">
+        <input type="submit" name="data" formaction="/command" value="TV_Switch">
+        <input type="submit" name="data" formaction="/command" value="TV_Subtitle">
+        <input type="submit" name="data" formaction="/command" value="TV_Ratio">
+        <input type="submit" name="data" formaction="/command" value="TV_reverse">
+        <input type="submit" name="data" formaction="/command" value="TV_Pause">
+        <input type="submit" name="data" formaction="/command" value="TV_forward">
+        <input type="submit" name="data" formaction="/command" value="TV_Rec">
+        <input type="submit" name="data" formaction="/command" value="TV_Play">
+        <input type="submit" name="data" formaction="/command" value="TV_Stop">
+    </form>
+    <a href="update">update</a>
+    <a href="uploaddata">update data</a>
+</body>
+
+</html>
