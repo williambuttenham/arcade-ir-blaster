@@ -14,8 +14,8 @@
 #define IR_LED D3
 
 #ifndef STASSID
-#define STASSID "***REMOVED***"
-#define STAPSK "***REMOVED***"
+#define STASSID "****"
+#define STAPSK "*******"
 #endif
 
 #define TV_ON 0x2FD48B7           //
