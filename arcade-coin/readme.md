@@ -1,0 +1,1 @@
+Source for the ATMega32u4 based keyboard for interfacing with a coin acceptor mechanism
