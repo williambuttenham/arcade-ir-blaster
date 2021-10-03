@@ -1,0 +1,5 @@
+- Designed to mimic a Namco Ms. Pac-Man machine
+- Built with plywood and dado joints
+- The bottom of the cabinet design was trimmed to fit some caster wheels
+- A large hole was made in the back to allow servicing
+- Coin mechanism was installed in fornt after the main build
